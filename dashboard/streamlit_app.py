@@ -216,6 +216,10 @@ with st.sidebar:
             run_reconciliation()
 
     st.markdown("---")
+    st.link_button("🔗 GitHub Repository", "https://github.com/Divyankghinmine/Sentinel-Finance", use_container_width=True)
+    st.link_button("📺 Watch Demo Video", "https://youtube.com", use_container_width=True)
+
+    st.markdown("---")
     st.caption("⚙️ System Info")
     from app.core.config import AI_MODE, DATA_DIR
     st.caption(f"Mode: `{AI_MODE}`")
@@ -378,6 +382,22 @@ else:
                 <p style="color: #94a3b8;">Evaluated against synthetic ground truth labels</p>
             </div>
             """, unsafe_allow_html=True)
+
+        st.markdown("---")
+        st.markdown('<div class="section-header">All Reconciliation Results & Solutions</div>', unsafe_allow_html=True)
+        
+        all_data = []
+        for r in results:
+            all_data.append({
+                "ID": r.source_id,
+                "Status": r.status.value,
+                "Confidence": f"{r.confidence:.2f}",
+                "Problem (Reason)": r.reason,
+                "Solution (Action)": r.recommended_action
+            })
+        
+        if all_data:
+            st.dataframe(pd.DataFrame(all_data), use_container_width=True, height=400)
 
     elif page == "Reconciliation":
         st.markdown("# 🔍 Reconciliation Results")
